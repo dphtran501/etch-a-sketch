@@ -35,4 +35,17 @@ function onClearClick(e) {
     gridSquares.forEach((square) => {
         square.classList.remove('grid-square--mouseover');
     })
+
+    resetGrid();
+}
+function resetGrid() {
+    removeGridSqures();
+    let squaresPerSide = Number(window.prompt("How many squares per side?"));
+    setGrid(squaresPerSide, squaresPerSide);
+}
+
+function removeGridSqures() {
+    while (gridContainer.hasChildNodes()){
+        gridContainer.removeChild(gridContainer.firstChild);
+    }
 }

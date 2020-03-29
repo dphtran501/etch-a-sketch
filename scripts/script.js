@@ -20,6 +20,7 @@ function setGrid(numberOfColumns, numberOfRows) {
             gridSquare.setAttribute("grid-row", r);
             gridSquare.classList.add('grid-square');
             gridSquare.addEventListener('mouseover', onMouseOver);
+            gridSquare.dataset.mouseoverPasses = 0; // Record number of mouseover passes in square
             gridContainer.appendChild(gridSquare);
         }
     }
@@ -27,13 +28,41 @@ function setGrid(numberOfColumns, numberOfRows) {
 
 function onMouseOver(e) {
     let gridSquare = e.target;
-    gridSquare.classList.add('grid-square--mouseover');
+    let mouseoverPasses = Number(gridSquare.dataset.mouseoverPasses);
+    if (mouseoverPasses == 0){
+        // Store original RGB
+        let red = randomColorIntensity();
+        gridSquare.dataset.originalRed = red;
+        let green = randomColorIntensity();
+        gridSquare.dataset.originalGreen = green;
+        let blue = randomColorIntensity();
+        gridSquare.dataset.originalBlue = blue;
+        
+        gridSquare.style.backgroundColor = getRGB(red, green, blue);
+        gridSquare.dataset.mouseoverPasses = mouseoverPasses + 1;
+    }
+    else if (mouseoverPasses == 10){
+        gridSquare.style.backgroundColor = getRGB(0,0,0);
+    }
+    else if (mouseoverPasses < 10){
+        let originalRed = Number(gridSquare.dataset.originalRed);
+        let originalGreen = Number(gridSquare.dataset.originalGreen);
+        let originalBlue = Number(gridSquare.dataset.originalBlue);
+        // Add 10% black
+        let newRed = originalRed - Math.floor(originalRed / 10 * mouseoverPasses);
+        let newGreen = originalGreen - Math.floor(originalGreen / 10 * mouseoverPasses);
+        let newBlue = originalBlue - Math.floor(originalBlue / 10 * mouseoverPasses);
+        
+        gridSquare.style.backgroundColor = getRGB(newRed, newGreen, newBlue);
+        gridSquare.dataset.mouseoverPasses = mouseoverPasses + 1;
+    }
 }
 
 function onClearClick(e) {
     let gridSquares = document.querySelectorAll(".grid-square");
     gridSquares.forEach((square) => {
-        square.classList.remove('grid-square--mouseover');
+        square.style.backgroundColor = 'transparent';
+        square.dataset.mouseoverPasses = 0;
     })
 
     resetGrid();
@@ -48,4 +77,12 @@ function removeGridSqures() {
     while (gridContainer.hasChildNodes()){
         gridContainer.removeChild(gridContainer.firstChild);
     }
+}
+
+function getRGB(red, green, blue) {
+    return 'rgb(' + red + ',' + green + ',' + blue + ')';
+}
+
+function randomColorIntensity() {
+    return Math.floor(Math.random() * 256);
 }

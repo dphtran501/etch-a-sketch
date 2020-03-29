@@ -44,10 +44,6 @@ body {
     border: 1px solid #000;
 }
 
-.grid-square--mouseover {
-    background: red;
-}
-
 .footer {
     position: fixed;
     left: 0;

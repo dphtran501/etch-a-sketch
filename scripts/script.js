@@ -3,9 +3,13 @@ const DEFAULT_MAX_COLUMNS = 16;
 
 const gridContainer = document.querySelector(".grid-container");
 const clearButton = document.querySelector('#clear-button');
+const gridButton = document.querySelector('#grid-button');
 
 clearButton.addEventListener('click', onClearClick);
+gridButton.addEventListener('click', onGridToggle);
 
+// Default settings
+let isGridOn = true;
 setGrid(DEFAULT_MAX_COLUMNS, DEFAULT_MAX_ROWS);
 
 function setGrid(numberOfColumns, numberOfRows) {
@@ -19,6 +23,7 @@ function setGrid(numberOfColumns, numberOfRows) {
             gridSquare.setAttribute("grid-column", c);
             gridSquare.setAttribute("grid-row", r);
             gridSquare.classList.add('grid-square');
+            toggleGridSquare(gridSquare, isGridOn);
             gridSquare.addEventListener('mouseover', onMouseOver);
             gridSquare.dataset.mouseoverPasses = 0; // Record number of mouseover passes in square
             gridContainer.appendChild(gridSquare);
@@ -85,4 +90,39 @@ function getRGB(red, green, blue) {
 
 function randomColorIntensity() {
     return Math.floor(Math.random() * 256);
+}
+
+function onGridToggle(e) {
+    toggleGrid(!isGridOn)   // Set grid to opposite of current grid state (e.g. if currently on, turn grid off)
+
+    isGridOn = !isGridOn;
+
+    if (isGridOn){
+        gridButton.title = "Turn Grid Off";
+        gridButton.classList.remove('grid-button--off')
+        gridButton.classList.add('grid-button--on');
+    }
+    else {
+        gridButton.title = "Turn Grid On";
+        gridButton.classList.remove('grid-button--on')
+        gridButton.classList.add('grid-button--off');
+    }
+}
+
+function toggleGrid(gridState) {
+    let gridSquares = document.querySelectorAll(".grid-square");
+    gridSquares.forEach((square) => {
+        toggleGridSquare(square, gridState);
+    })
+}
+
+function toggleGridSquare(square, gridState){
+    if (gridState){ // turn grid on
+        square.classList.remove('grid-square--gridoff');
+        square.classList.add('grid-square--gridon');
+    }
+    else {  // turn grid off
+        square.classList.remove('grid-square--gridon');
+        square.classList.add('grid-square--gridoff');
+    }
 }

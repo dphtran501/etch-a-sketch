@@ -15,16 +15,24 @@ body {
     font-family: 'Mr Dafoe', cursive;
 }
 
-#clear-button {
+.banner-buttons {
     grid-column: 3;
     justify-self: center;
-    opacity: .5;
+    display: flex;
+    justify-content: center;
 }
 
-#clear-button:hover {
-    transform: scale(1.1);
-    opacity: 1;
+.banner-buttons img {
     cursor: pointer;
+    margin: 0 10px;
+}
+
+.grid-button--on {
+    opacity: 1;
+}
+
+.grid-button--off {
+    opacity: 0.2;
 }
 
 .container {
@@ -40,8 +48,12 @@ body {
     border: 1px solid #000;
 }
 
-.grid-square {
+.grid-square--gridon {
     border: 1px solid #000;
+}
+
+.grid-square--gridoff {
+    border: none;
 }
 
 .footer {

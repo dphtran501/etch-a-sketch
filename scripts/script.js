@@ -11,6 +11,7 @@ gridButton.addEventListener('click', onGridToggle);
 // Default settings
 let isGridOn = true;
 setGrid(defaultMaxColumns, defaultMaxRows);
+gridButton.title = "Turn Grid Off";
 
 function setGrid(numberOfColumns, numberOfRows) {
     // Set grid container

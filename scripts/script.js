@@ -1,5 +1,5 @@
-const DEFAULT_MAX_ROWS = 16;
-const DEFAULT_MAX_COLUMNS = 16;
+let defaultMaxRows = 16;
+let defaultMaxColumns = 16;
 
 const gridContainer = document.querySelector(".grid-container");
 const clearButton = document.querySelector('#clear-button');
@@ -10,7 +10,7 @@ gridButton.addEventListener('click', onGridToggle);
 
 // Default settings
 let isGridOn = true;
-setGrid(DEFAULT_MAX_COLUMNS, DEFAULT_MAX_ROWS);
+setGrid(defaultMaxColumns, defaultMaxRows);
 
 function setGrid(numberOfColumns, numberOfRows) {
     // Set grid container
@@ -75,7 +75,12 @@ function onClearClick(e) {
 function resetGrid() {
     removeGridSqures();
     let squaresPerSide = Number(window.prompt("How many squares per side?"));
-    setGrid(squaresPerSide, squaresPerSide);
+    if (squaresPerSide != null && squaresPerSide != '' && !isNaN(squaresPerSide)){
+        defaultMaxRows = squaresPerSide;
+        defaultMaxColumns = squaresPerSide;
+    }
+    
+    setGrid(defaultMaxColumns, defaultMaxRows);
 }
 
 function removeGridSqures() {
